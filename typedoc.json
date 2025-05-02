@@ -1,0 +1,14 @@
+{
+    "entryPoints": ["src/index.ts"],
+    "out": "docs",
+    "includeVersion": true,
+    "excludePrivate": false,
+    "excludeProtected": false,
+    "excludeExternals": true,
+    "hideGenerator": true,
+    "tsconfig": "tsconfig.json",
+    "readme": "README.md",
+    "categorizeByGroup": true,
+    "name": "QQBotJump"
+  }
+  
