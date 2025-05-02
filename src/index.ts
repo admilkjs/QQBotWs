@@ -13,7 +13,7 @@ async function decompressBuffer(
 			encoding === 'gzip'
 				? zlib.createGunzip()
 				: encoding === 'deflate'
-				? zlib.createInflateRaw() // 修复：使用原始 Inflate 处理 deflate
+				? zlib.createInflateRaw()
 				: encoding === 'br'
 				? zlib.createBrotliDecompress()
 				: null
@@ -29,7 +29,7 @@ async function decompressBuffer(
 			.on('end', () => resolve(Buffer.concat(chunks)))
 			.on('error', (err) => {
 				console.error(`[HTTP] 解压失败: ${err.message}`)
-				resolve(buffer) // 修复：解压失败时返回原始数据
+				resolve(buffer)
 			})
 
 		decompressor.write(buffer)
@@ -258,12 +258,10 @@ async function startServer() {
 					headers['Content-Type'] = req.headers['content-type']
 				}
 
-				// 确保请求体为 Buffer
 				const rawBody = req.body as Buffer | null
 				const bodyLength = rawBody ? rawBody.length : 0
 				delete headers['transfer-encoding']
 
-				// 正确设置 Content-Length
 				if (bodyLength > 0) {
 					headers['Content-Length'] = bodyLength.toString()
 				} else {
@@ -276,9 +274,7 @@ async function startServer() {
 				const response = await fetch(target.toString(), {
 					method: req.method,
 					headers: { ...headers, 'Accept-Encoding': 'gzip, deflate, br' },
-					body: Buffer.isBuffer(rawBody)
-						? rawBody
-						: JSON.stringify(rawBody),
+					body: Buffer.isBuffer(rawBody) ? rawBody : JSON.stringify(rawBody),
 				})
 
 				console.log(
