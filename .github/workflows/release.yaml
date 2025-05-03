@@ -43,6 +43,24 @@ jobs:
           GOOS=darwin GOARCH=amd64 go build -v -o QQBotWs-darwin-amd64
           GOOS=darwin GOARCH=arm64 go build -v -o QQBotWs-darwin-arm64
 
+          # FreeBSD builds
+          GOOS=freebsd GOARCH=amd64 go build -v -o QQBotWs-freebsd-amd64
+          GOOS=freebsd GOARCH=arm64 go build -v -o QQBotWs-freebsd-arm64
+
+          # Android builds
+          GOOS=android GOARCH=arm64 go build -v -o QQBotWs-android-arm64
+          GOOS=android GOARCH=386 go build -v -o QQBotWs-android-386
+
+          # Other Linux architectures
+          GOOS=linux GOARCH=riscv64 go build -v -o QQBotWs-linux-riscv64
+          GOOS=linux GOARCH=ppc64 go build -v -o QQBotWs-linux-ppc64
+
+          # DragonFly BSD
+          GOOS=dragonfly GOARCH=amd64 go build -v -o QQBotWs-dragonfly-amd64
+
+          # Solaris
+          GOOS=solaris GOARCH=amd64 go build -v -o QQBotWs-solaris-amd64
+
       - name: 🚀 运行 release-please，生成版本和 Release Notes
         id: release
         uses: googleapis/release-please-action@v4
@@ -66,3 +84,11 @@ jobs:
             QQBotWs-windows-386.exe
             QQBotWs-darwin-amd64
             QQBotWs-darwin-arm64
+            QQBotWs-freebsd-amd64
+            QQBotWs-freebsd-arm64
+            QQBotWs-android-arm64
+            QQBotWs-android-386
+            QQBotWs-linux-riscv64
+            QQBotWs-linux-ppc64
+            QQBotWs-dragonfly-amd64
+            QQBotWs-solaris-amd64
