@@ -26,6 +26,7 @@ jobs:
 
       - name: 📦 安装依赖 & 构建项目
         run: |
+          npm install -g node-gyp
           npm install --force
           npm run build
 
