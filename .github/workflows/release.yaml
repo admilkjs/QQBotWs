@@ -61,6 +61,13 @@ jobs:
           # Solaris
           GOOS=solaris GOARCH=amd64 go build -v -o QQBotWs-solaris-amd64
 
+          # AIX
+          GOOS=aix GOARCH=ppc64 go build -v -o QQBotWs-aix-ppc64
+
+          # Plan9
+          GOOS=plan9 GOARCH=amd64 go build -v -o QQBotWs-plan9-amd64
+          GOOS=plan9 GOARCH=386 go build -v -o QQBotWs-plan9-386
+
       - name: 🚀 运行 release-please，生成版本和 Release Notes
         id: release
         uses: googleapis/release-please-action@v4
@@ -92,3 +99,6 @@ jobs:
             QQBotWs-linux-ppc64
             QQBotWs-dragonfly-amd64
             QQBotWs-solaris-amd64
+            QQBotWs-aix-ppc64
+            QQBotWs-plan9-amd64
+            QQBotWs-plan9-386
