@@ -1,0 +1,50 @@
+name: 发布发行版
+
+on:
+  workflow_dispatch:
+  push:
+    branches:
+      - main
+
+permissions:
+  contents: write
+  pull-requests: write
+
+jobs:
+  release:
+    runs-on: ubuntu-latest
+
+    steps:
+      - name: 🧾 检出代码
+        uses: actions/checkout@v3
+
+      - name: ⚙️ 设置 Node.js 环境
+        uses: actions/setup-node@v3
+        with:
+          node-version: 20
+          registry-url: 'https://registry.npmjs.org'
+
+      - name: 📦 安装依赖 & 构建项目
+        run: |
+          npm install
+          npm run build
+
+      - name: 🚀 运行 release-please，生成版本和 Release Notes
+        id: release
+        uses: googleapis/release-please-action@v4
+        with:
+          config-file: .release-please-config.json
+          manifest-file: .release-please-manifest.json
+
+      - name: 📦 打包 npm 发布产物
+        if: ${{ steps.release.outputs.release_created }}
+        run: npm pack
+
+      - name: 🗃 上传打包文件到 GitHub Release
+        if: ${{ steps.release.outputs.release_created }}
+        uses: softprops/action-gh-release@v1
+        with:
+          tag_name: ${{ steps.release.outputs.tag_name }}
+          name: ${{ steps.release.outputs.tag_name }}
+          body: ${{ steps.release.outputs.release_notes }}
+          files: "*.tgz"
