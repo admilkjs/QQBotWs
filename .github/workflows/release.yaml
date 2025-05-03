@@ -17,18 +17,33 @@ jobs:
     steps:
       - name: 🧾 检出代码
         uses: actions/checkout@v3
-
-      - name: ⚙️ 设置 Node.js 环境
-        uses: actions/setup-node@v3
         with:
-          node-version: 20
-          registry-url: 'https://registry.npmjs.org'
+          fetch-depth: 0
 
-      - name: 📦 安装依赖 & 构建项目
+      - name: ⚙️ 设置 Go 环境
+        uses: actions/setup-go@v4
+        with:
+          go-version: '1.21'
+          cache: true
+
+      - name: 📦 下载依赖
+        run: go mod download
+
+      - name: 🔨 构建项目
         run: |
-          npm install -g node-gyp
-          npm install --force
-          npm run build
+          # Linux builds
+          GOOS=linux GOARCH=amd64 go build -v -o QQBotWs-linux-amd64
+          GOOS=linux GOARCH=arm64 go build -v -o QQBotWs-linux-arm64
+          GOOS=linux GOARCH=386 go build -v -o QQBotWs-linux-386
+          
+          # Windows builds
+          GOOS=windows GOARCH=amd64 go build -v -o QQBotWs-windows-amd64.exe
+          GOOS=windows GOARCH=arm64 go build -v -o QQBotWs-windows-arm64.exe
+          GOOS=windows GOARCH=386 go build -v -o QQBotWs-windows-386.exe
+          
+          # macOS builds
+          GOOS=darwin GOARCH=amd64 go build -v -o QQBotWs-darwin-amd64
+          GOOS=darwin GOARCH=arm64 go build -v -o QQBotWs-darwin-arm64
 
       - name: 🚀 运行 release-please，生成版本和 Release Notes
         id: release
@@ -37,15 +52,19 @@ jobs:
           config-file: .release-please-config.json
           manifest-file: .release-please-manifest.json
 
-      - name: 📦 打包 npm 发布产物
-        if: ${{ steps.release.outputs.release_created }}
-        run: npm pack
-
-      - name: 🗃 上传打包文件到 GitHub Release
+      - name: 🗃 上传构建产物到 GitHub Release
         if: ${{ steps.release.outputs.release_created }}
         uses: softprops/action-gh-release@v1
         with:
           tag_name: ${{ steps.release.outputs.tag_name }}
           name: ${{ steps.release.outputs.tag_name }}
           body: ${{ steps.release.outputs.release_notes }}
-          files: "*.tgz"
+          files: |
+            QQBotWs-linux-amd64
+            QQBotWs-linux-arm64
+            QQBotWs-linux-386
+            QQBotWs-windows-amd64.exe
+            QQBotWs-windows-arm64.exe
+            QQBotWs-windows-386.exe
+            QQBotWs-darwin-amd64
+            QQBotWs-darwin-arm64

@@ -3,3 +3,4 @@ Yunzai-QQBot-Plugin
 # qq-official-bot
 pnpm-lock.yaml
 lib
+*.exe
