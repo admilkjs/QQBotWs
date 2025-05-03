@@ -3,7 +3,7 @@ import FastifyWebsocket from '@fastify/websocket'
 import fs from 'node:fs'
 import { WebSocket } from 'ws'
 import zlib from 'zlib'
-
+import fetch from 'node-fetch'
 async function decompressBuffer(
 	buffer: Buffer,
 	encoding: string,
@@ -258,23 +258,14 @@ async function startServer() {
 					headers['Content-Type'] = req.headers['content-type']
 				}
 
-				const rawBody = req.body as Buffer | null
-				const bodyLength = rawBody ? rawBody.length : 0
 				delete headers['transfer-encoding']
-
-				if (bodyLength > 0) {
-					headers['Content-Length'] = bodyLength.toString()
-				} else {
-					delete headers['content-length']
-				}
-
+				delete headers['content-length']
 				console.log('[HTTP] 最终请求头:', headers)
-
 				const startTime = Date.now()
 				const response = await fetch(target.toString(), {
 					method: req.method,
 					headers: { ...headers, 'Accept-Encoding': 'gzip, deflate, br' },
-					body: Buffer.isBuffer(rawBody) ? rawBody : JSON.stringify(rawBody),
+					body: Buffer.isBuffer(req.body) ? req.body : JSON.stringify(req.body),
 				})
 
 				console.log(
@@ -300,7 +291,7 @@ async function startServer() {
 				}
 
 				const responseHeaders: Record<string, string> = {}
-				response.headers.forEach((value, key) => {
+				response.headers.forEach((value: string, key: string) => {
 					const lowerKey = key.toLowerCase()
 					if (
 						![
