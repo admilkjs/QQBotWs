@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.2.1](https://github.com/admilkjs/QQBotWs/compare/v0.2.0...v0.2.1) (2025-05-03)
+
+
+### 📝 文档更新
+
+* 添加项目README文件，包含项目简介、构建指南和配置说明 ([738ac3b](https://github.com/admilkjs/QQBotWs/commit/738ac3b07ffa4868906d758db0b24b0a09083302))
+
 ## [0.2.0](https://github.com/admilkjs/QQBotWs/compare/v0.1.0...v0.2.0) (2025-05-03)
 
 
