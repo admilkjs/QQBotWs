@@ -85,8 +85,6 @@ npm install pm2 -g
 # 启动永夜结界
 pm2 start QQBotWs-linux-amd64 --name "dark-bot" -- \
   --port=3000 \
-  --cert=./cert.pem \
-  --key=./key.pem
 
 # 查看契约铭文
 pm2 logs dark-bot
@@ -100,8 +98,7 @@ Description=Dark WebSocket Daemon
 [Service]
 ExecStart=/path/to/QQBotWs-linux-amd64 \
   --port=3000 \
-  --cert=/absolute/path/cert.pem \
-  --key=/absolute/path/key.pem
+  --log-level=info
 Restart=always
 
 [Install]
