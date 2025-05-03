@@ -160,6 +160,17 @@ func (bot *QQBot) readTarget() {
 			break
 		}
 		log.Printf("[WS] 转发目标消息 appid:%d 状态:成功 长度:%d", bot.appid, len(message))
+		var parsedMessage map[string]any
+		if err := json.Unmarshal(message, &parsedMessage); err != nil {
+			log.Printf("[WS] JSON解析失败 appid:%d error:%v", bot.appid, err)
+		} else {
+			parsedJSON, err := json.Marshal(parsedMessage)
+			if err != nil {
+				log.Printf("[WS] JSON序列化失败 appid:%d error:%v", bot.appid, err)
+			} else {
+				log.Printf("[目标消息内容]: %s", string(parsedJSON))
+			}
+		}
 	}
 }
 
@@ -179,6 +190,17 @@ func (bot *QQBot) readSelf() {
 				continue
 			}
 			log.Printf("[WS] 转发客户端消息 appid:%d 状态:成功 长度:%d", bot.appid, len(message))
+			var parsedMessage map[string]any
+			if err := json.Unmarshal(message, &parsedMessage); err != nil {
+				log.Printf("[WS] JSON解析失败 appid:%d error:%v", bot.appid, err)
+			} else {
+				parsedJSON, err := json.Marshal(parsedMessage)
+				if err != nil {
+					log.Printf("[WS] JSON序列化失败 appid:%d error:%v", bot.appid, err)
+				} else {
+					log.Printf("[客户端消息内容]: %s", string(parsedJSON))
+				}
+			}
 		} else {
 			log.Printf("[WS] 转发客户端消息失败 appid:%d 原因:目标连接未就绪", bot.appid)
 		}

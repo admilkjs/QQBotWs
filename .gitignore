@@ -4,3 +4,6 @@ Yunzai-QQBot-Plugin
 pnpm-lock.yaml
 lib
 *.exe
+.vscode/launch.json
+key.pem
+cert.pem
