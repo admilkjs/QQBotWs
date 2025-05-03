@@ -293,7 +293,7 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	parsedURL, err := url.Parse(queryURL)
+	//parsedURL, err := url.Parse(queryURL)
 	if err != nil {
 		log.Printf("[WS] 非法URL格式: %v", err)
 		http.Error(w, "Invalid URL", http.StatusBadRequest)
