@@ -1,5 +1,19 @@
 # Changelog
 
+## [0.2.2](https://github.com/admilkjs/QQBotWs/compare/v0.2.1...v0.2.2) (2025-05-03)
+
+
+### 🎨 代码样式
+
+* **main:** 优化代码格式和导入顺序 ([5cc44da](https://github.com/admilkjs/QQBotWs/commit/5cc44da19d32c0efce611a34a4a911f576bca6bc))
+
+
+### 🎡 持续集成
+
+* **workflow:** 添加对FreeBSD、Android、Linux其他架构、DragonFly BSD和Solaris的构建支持 ([ab9eb70](https://github.com/admilkjs/QQBotWs/commit/ab9eb70d740d9924ca15ec3ab17ac8ff8977d1b8))
+* 你好 ([c5df477](https://github.com/admilkjs/QQBotWs/commit/c5df47742053d6940b2b7bc088317a4f1d0b56c9))
+* 添加AIX和Plan9平台的构建支持 ([8a9377c](https://github.com/admilkjs/QQBotWs/commit/8a9377cb6b55c0084d9b29b6ab7784eae24a0fb9))
+
 ## [0.2.1](https://github.com/admilkjs/QQBotWs/compare/v0.2.0...v0.2.1) (2025-05-03)
 
 
