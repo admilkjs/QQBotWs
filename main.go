@@ -2,9 +2,9 @@ package main
 
 import (
 	"bytes"
-	"compress/gzip"
-	"compress/flate"
 	"compress/bzip2"
+	"compress/flate"
+	"compress/gzip"
 	"crypto/tls"
 	"encoding/json"
 	"fmt"
@@ -23,14 +23,14 @@ import (
 )
 
 type QQBot struct {
-	self          *websocket.Conn
-	target        *websocket.Conn
-	appid         int64
-	url           string
-	reconnectMu   sync.Mutex
+	self           *websocket.Conn
+	target         *websocket.Conn
+	appid          int64
+	url            string
+	reconnectMu    sync.Mutex
 	reconnectCount int
-	maxRetries    int
-	retryDelay    time.Duration
+	maxRetries     int
+	retryDelay     time.Duration
 }
 
 var (
@@ -264,9 +264,9 @@ func handleProxy(w http.ResponseWriter, r *http.Request) {
 
 	// 设置响应头
 	for k, v := range resp.Header {
-		if !strings.EqualFold(k, "Content-Length") && 
-		   !strings.EqualFold(k, "Transfer-Encoding") && 
-		   !strings.EqualFold(k, "Content-Encoding") {
+		if !strings.EqualFold(k, "Content-Length") &&
+			!strings.EqualFold(k, "Transfer-Encoding") &&
+			!strings.EqualFold(k, "Content-Encoding") {
 			w.Header()[k] = v
 		}
 	}
@@ -293,12 +293,13 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 		return
 	}
 
-	//parsedURL, err := url.Parse(queryURL)
+	parsedURL, err := url.Parse(queryURL)
 	if err != nil {
 		log.Printf("[WS] 非法URL格式: %v", err)
 		http.Error(w, "Invalid URL", http.StatusBadRequest)
 		return
 	}
+	_ = parsedURL
 
 	conn, err := upgrader.Upgrade(w, r, nil)
 	if err != nil {
