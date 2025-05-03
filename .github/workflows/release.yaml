@@ -47,10 +47,6 @@ jobs:
           GOOS=freebsd GOARCH=amd64 go build -v -o QQBotWs-freebsd-amd64
           GOOS=freebsd GOARCH=arm64 go build -v -o QQBotWs-freebsd-arm64
 
-          # Android builds
-          GOOS=android GOARCH=arm64 go build -v -o QQBotWs-android-arm64
-          GOOS=android GOARCH=386 go build -v -o QQBotWs-android-386
-
           # Other Linux architectures
           GOOS=linux GOARCH=riscv64 go build -v -o QQBotWs-linux-riscv64
           GOOS=linux GOARCH=ppc64 go build -v -o QQBotWs-linux-ppc64
@@ -93,8 +89,6 @@ jobs:
             QQBotWs-darwin-arm64
             QQBotWs-freebsd-amd64
             QQBotWs-freebsd-arm64
-            QQBotWs-android-arm64
-            QQBotWs-android-386
             QQBotWs-linux-riscv64
             QQBotWs-linux-ppc64
             QQBotWs-dragonfly-amd64
