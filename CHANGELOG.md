@@ -1,5 +1,12 @@
 # Changelog
 
+## [0.3.0](https://github.com/admilkjs/QQBotWs/compare/v0.2.2...v0.3.0) (2025-05-03)
+
+
+### ✨ 新功能
+
+* **bot:** 增加消息内容的 JSON 解析和日志输出 ([8704b5f](https://github.com/admilkjs/QQBotWs/commit/8704b5fcca5ce8a4e13754e80718c091f28f9eca))
+
 ## [0.2.2](https://github.com/admilkjs/QQBotWs/compare/v0.2.1...v0.2.2) (2025-05-03)
 
 
