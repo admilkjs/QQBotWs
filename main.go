@@ -413,6 +413,93 @@ func main() {
 		})
 	})
 
+	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
+		if r.URL.Path != "/" && r.URL.Path != "/proxy" && r.URL.Path != "/ws" && r.URL.Path != "/health" {
+			http.Redirect(w, r, "https://ys.mihoyo.com", http.StatusFound)
+			// 主动关闭底层socket连接
+			if conn, _, err := w.(http.Hijacker).Hijack(); err == nil {
+				conn.Close()
+			}
+			return
+		} else if r.URL.Path == "/" {
+			w.Header().Set("Content-Type", "application/json")
+			w.WriteHeader(http.StatusOK)
+			// 发送字符串
+			response := `{
+  "msg": "IAA 云天明 章北海 赵怡然内部签名",
+  "code": 0,
+  "data": {
+    "protocol": {
+      "code": "6372",
+      "package_name": "com.tencent.mobileqq",
+      "qua": "V1_AND_SQ_9.0.56_6372_YYB_D",
+      "version": "9.0.56"
+    },
+    "stat": {
+      "Speed": {
+        "SIGN-OPM5": 358,
+        "SIGN-OPS": 1,
+        "SIGN-OPM": 70,
+        "SIGN-OPM10": 713
+      },
+      "Call": {
+        "Energy": 988,
+        "Sign": 11061
+      },
+      "Errors": {
+        "Common": 10
+      },
+      "Performance": {
+        "Energy": 178,
+        "Sign": 164
+      }
+    },
+    "instances": [
+      "0c1b",
+      "0c21-2",
+      "0c21",
+      "0c1b-3",
+      "0c21-5",
+      "0c1b-2",
+      "0c21-4",
+      "0c21-3",
+      "0c19",
+      "0c1f-2",
+      "0c1f"
+    ],
+    "version": "1.2.4",
+    "support": [
+      "9.0.65",
+      "9.0.55",
+      "9.0.85",
+      "9.0.56",
+      "9.0.81",
+      "9.0.70",
+      "9.0.60",
+      "9.1.20",
+      "9.1.16",
+      "9.1.15",
+      "9.0.95",
+      "9.1.55",
+      "9.1.35",
+      "9.1.50",
+      "9.1.60",
+      "9.0.90",
+      "9.1.30",
+      "9.1.25",
+      "9.0.25",
+      "9.0.3",
+      "9.1.10",
+      "9.1.5",
+      "9.1.0"
+    ]
+  }
+}`
+			w.Write([]byte(response))
+			return
+		}
+	})
+
 	handler := http.HandlerFunc(func(w http.ResponseWriter, r *http.Request) {
 		w.Header().Set("Access-Control-Allow-Origin", "*")
 		w.Header().Set("Access-Control-Allow-Methods", "*")
