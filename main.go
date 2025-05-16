@@ -361,6 +361,7 @@ func main() {
 		port = "2173"
 	}
 	ishttps := os.Getenv("HTTPS")
+	ishttps = strings.ToUpper(ishttps)
 	if ishttps == "" {
 		// _, err := os.Stat("cert.pem")
 		// if os.IsNotExist(err) {
@@ -368,11 +369,11 @@ func main() {
 		// 	ishttps = "false"
 
 		// } else {
-		ishttps = "false"
+		ishttps = "FALSE"
 		// }
 	}
 	var server *http.Server
-	if ishttps == "true" {
+	if ishttps == "TRUE" {
 		cert, err := tls.LoadX509KeyPair("cert.pem", "key.pem")
 		if err != nil {
 			log.Fatalf("[SERVER] 加载证书失败: %v", err)
