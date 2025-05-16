@@ -22,12 +22,9 @@
 
 ## 多平台支持
 
-| 操作系统 | 架构  | 构建产物名称              |
-| -------- | ----- | ------------------------- |
-| Linux    | amd64 | QQBotWs-linux-amd64       |
-| Linux    | arm64 | QQBotWs-linux-arm64       |
-| Windows  | amd64 | QQBotWs-windows-amd64.exe |
-| macOS    | arm64 | QQBotWs-darwin-arm64      |
+- Windows
+- macOS
+- Linux
 
 ## HTTPS 配置
 
@@ -38,7 +35,7 @@
 2. 启动参数：
 
 ```bash
-./QQBotWs-linux-amd64
+./QQBotWs-xxx-xxx
 ```
 
 ## 环境变量
@@ -64,7 +61,6 @@ GET /health
 }
 ```
 
-
 ## 🧙♂️ 暗夜运行指南
 
 ### 🔮 魔导书目录（证书存放）
@@ -82,7 +78,7 @@ GET /health
 npm install pm2 -g
 
 # 启动永夜结界
-pm2 start QQBotWs-linux-amd64 --name "dark-bot" -- \
+pm2 start QQBotWs-xxx-xxx --name "dark-bot" -- \
   --port=3000 \
   --HTTPS=true \
 
@@ -97,7 +93,7 @@ pm2 logs dark-bot
 Description=Dark WebSocket Daemon
 
 [Service]
-ExecStart=/path/to/QQBotWs-linux-amd64 \
+ExecStart=/path/to/QQBotWs-xxx-xxx \
   --port=3000 \
   --HTTPS=true \
   --log-level=info
