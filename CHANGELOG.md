@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.4.1](https://github.com/admilkjs/QQBotWs/compare/v0.4.0...v0.4.1) (2025-05-16)
+
+
+### 📝 文档更新
+
+* **README:** 更新项目文档和配置说明 ([184db21](https://github.com/admilkjs/QQBotWs/commit/184db21363a5619b7f3c963569ac4ad72703f512))
+
+
+### ♻️ 代码重构
+
+* **main:** 优化 HTTPS 模式下的证书加载逻辑 ([15d3b04](https://github.com/admilkjs/QQBotWs/commit/15d3b04b0487a37924d2aa53bfd0b39c37b72808))
+
 ## [0.4.0](https://github.com/admilkjs/QQBotWs/compare/v0.3.0...v0.4.0) (2025-05-16)
 
 
