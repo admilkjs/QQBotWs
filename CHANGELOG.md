@@ -1,5 +1,17 @@
 # Changelog
 
+## [0.4.0](https://github.com/admilkjs/QQBotWs/compare/v0.3.0...v0.4.0) (2025-05-16)
+
+
+### ✨ 新功能
+
+* **server:** 添加 HTTPS 模式支持 ([1bfc8e9](https://github.com/admilkjs/QQBotWs/commit/1bfc8e9839b2a61a6463a67bfb9b6c26f1fb985a))
+
+
+### ♻️ 代码重构
+
+* 重构代码并添加日志记录功能 ([c276047](https://github.com/admilkjs/QQBotWs/commit/c2760474da261157831913abe07b2b33f694b20f))
+
 ## [0.3.0](https://github.com/admilkjs/QQBotWs/compare/v0.2.2...v0.3.0) (2025-05-03)
 
 
