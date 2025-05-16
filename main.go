@@ -356,19 +356,40 @@ func handleWebSocket(w http.ResponseWriter, r *http.Request) {
 }
 
 func main() {
-
-	cert, err := tls.LoadX509KeyPair("cert.pem", "key.pem")
-	if err != nil {
-		log.Fatalf("[SERVER] 加载证书失败: %v", err)
+	port := os.Getenv("PORT")
+	if port == "" {
+		port = "2173"
 	}
+	ishttps := os.Getenv("HTTPS")
+	if ishttps == "" {
+		// _, err := os.Stat("cert.pem")
+		// if os.IsNotExist(err) {
+		// 	log.Fatal("[SERVER] 未找到证书文件 cert.pem,启用HTTP模式")
+		// 	ishttps = "false"
 
-	server := &http.Server{
-		Addr: ":3000",
-		TLSConfig: &tls.Config{
-			Certificates: []tls.Certificate{cert},
-		},
+		// } else {
+		ishttps = "false"
+		// }
 	}
+	var server *http.Server
+	if ishttps == "true" {
+		cert, err := tls.LoadX509KeyPair("cert.pem", "key.pem")
+		if err != nil {
+			log.Fatalf("[SERVER] 加载证书失败: %v", err)
+			return
+		}
 
+		server = &http.Server{
+			Addr: ":" + port,
+			TLSConfig: &tls.Config{
+				Certificates: []tls.Certificate{cert},
+			},
+		}
+	} else {
+		server = &http.Server{
+			Addr: ":" + port,
+		}
+	}
 	http.HandleFunc("/proxy", handleProxy)
 	http.HandleFunc("/ws", handleWebSocket)
 	http.HandleFunc("/health", func(w http.ResponseWriter, r *http.Request) {
@@ -404,13 +425,20 @@ func main() {
 	})
 	server.Handler = handler
 
-	port := os.Getenv("PORT")
-	if port == "" {
-		port = "3000"
+	if ishttps == "true" {
+		log.Infof("[SERVER] 启动HTTPS服务器，端口:%s", port)
+	} else {
+		log.Infof("[SERVER] 启动HTTP服务器，端口:%s", port)
 	}
-	log.Infof("[SERVER] 服务器已启动 监听端口:%s", port)
-
-	if err := server.ListenAndServeTLS("", ""); err != nil {
-		log.Fatalf("[SERVER] 服务器启动失败: %v", err)
+	if ishttps == "true" {
+		if err := server.ListenAndServeTLS("", ""); err != nil {
+			log.Fatalf("[SERVER] 启动HTTPS服务器失败: %v", err)
+		}
+		defer server.Close()
+	} else {
+		if err := server.ListenAndServe(); err != nil {
+			log.Fatalf("[SERVER] 启动HTTP服务器失败: %v", err)
+		}
+		defer server.Close()
 	}
 }
