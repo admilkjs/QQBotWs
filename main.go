@@ -364,13 +364,15 @@ func main() {
 	ishttpsStr := strings.ToUpper(ishttpsEnv)
 	ishttps := (ishttpsStr == "TRUE")
 	if ishttpsEnv == "" {
-		// auto
+		// 自动选择模式
+		log.Info("[SERVER] 未设置HTTPS环境变量,自动选择模式")
 		_, err := os.Stat("cert.pem")
 		if os.IsNotExist(err) {
-			log.Fatal("[SERVER] 未找到证书文件 cert.pem,启用HTTP模式")
+			log.Info("[SERVER] 未找到证书文件 cert.pem,启用HTTP模式")
 			ishttps = false
 
 		} else {
+			log.Info("[SERVER] 检测到证书文件,启用HTTPS模式")
 			ishttps = true
 		}
 	}
@@ -378,7 +380,7 @@ func main() {
 	if ishttps {
 		cert, err := tls.LoadX509KeyPair("cert.pem", "key.pem")
 		if err != nil {
-			log.Fatalf("[SERVER] 加载证书失败: %v", err)
+			log.Infof("[SERVER] 加载证书失败: %v", err)
 			return
 		}
 
@@ -518,12 +520,12 @@ func main() {
 	}
 	if ishttps {
 		if err := server.ListenAndServeTLS("", ""); err != nil {
-			log.Fatalf("[SERVER] 启动HTTPS服务器失败: %v", err)
+			log.Infof("[SERVER] 启动HTTPS服务器失败: %v", err)
 		}
 		defer server.Close()
 	} else {
 		if err := server.ListenAndServe(); err != nil {
-			log.Fatalf("[SERVER] 启动HTTP服务器失败: %v", err)
+			log.Infof("[SERVER] 启动HTTP服务器失败: %v", err)
 		}
 		defer server.Close()
 	}
