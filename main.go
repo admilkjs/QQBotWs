@@ -360,20 +360,22 @@ func main() {
 	if port == "" {
 		port = "2173"
 	}
-	ishttps := os.Getenv("HTTPS")
-	ishttps = strings.ToUpper(ishttps)
-	if ishttps == "" {
-		// _, err := os.Stat("cert.pem")
-		// if os.IsNotExist(err) {
-		// 	log.Fatal("[SERVER] 未找到证书文件 cert.pem,启用HTTP模式")
-		// 	ishttps = "false"
+	ishttpsEnv := os.Getenv("HTTPS")
+	ishttpsStr := strings.ToUpper(ishttpsEnv)
+	ishttps := (ishttpsStr == "TRUE")
+	if ishttpsEnv == "" {
+		// auto
+		_, err := os.Stat("cert.pem")
+		if os.IsNotExist(err) {
+			log.Fatal("[SERVER] 未找到证书文件 cert.pem,启用HTTP模式")
+			ishttps = false
 
-		// } else {
-		ishttps = "FALSE"
-		// }
+		} else {
+			ishttps = true
+		}
 	}
 	var server *http.Server
-	if ishttps == "TRUE" {
+	if ishttps {
 		cert, err := tls.LoadX509KeyPair("cert.pem", "key.pem")
 		if err != nil {
 			log.Fatalf("[SERVER] 加载证书失败: %v", err)
@@ -416,17 +418,13 @@ func main() {
 	http.HandleFunc("/", func(w http.ResponseWriter, r *http.Request) {
 		if r.URL.Path != "/" && r.URL.Path != "/proxy" && r.URL.Path != "/ws" && r.URL.Path != "/health" {
 			http.Redirect(w, r, "https://ys.mihoyo.com", http.StatusFound)
-			// 主动关闭底层socket连接
-			if conn, _, err := w.(http.Hijacker).Hijack(); err == nil {
-				conn.Close()
-			}
 			return
 		} else if r.URL.Path == "/" {
 			w.Header().Set("Content-Type", "application/json")
+			w.Header().Set("Status", "Success")
 			w.WriteHeader(http.StatusOK)
-			// 发送字符串
 			response := `{
-  "msg": "IAA 云天明 章北海 赵怡然内部签名",
+  "msg": "IAA 云天明 章北海 大嘿客内部签名",
   "code": 0,
   "data": {
     "protocol": {
@@ -513,12 +511,12 @@ func main() {
 	})
 	server.Handler = handler
 
-	if ishttps == "true" {
+	if ishttps {
 		log.Infof("[SERVER] 启动HTTPS服务器，端口:%s", port)
 	} else {
 		log.Infof("[SERVER] 启动HTTP服务器，端口:%s", port)
 	}
-	if ishttps == "true" {
+	if ishttps {
 		if err := server.ListenAndServeTLS("", ""); err != nil {
 			log.Fatalf("[SERVER] 启动HTTPS服务器失败: %v", err)
 		}
