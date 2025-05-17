@@ -1,5 +1,23 @@
 # Changelog
 
+## [0.5.0](https://github.com/admilkjs/QQBotWs/compare/v0.4.1...v0.5.0) (2025-05-17)
+
+
+### ✨ 新功能
+
+* **main:** 那就很有生活了 ([700c5c2](https://github.com/admilkjs/QQBotWs/commit/700c5c23db93ba922a16385105cec48dbc750de1))
+
+
+### 📝 文档更新
+
+* **README:** 更新多平台支持信息并优化文档结构 ([1c107b7](https://github.com/admilkjs/QQBotWs/commit/1c107b7d57f34184bda1e5dc31fffd638068585c))
+
+
+### ♻️ 代码重构
+
+* **server:** 优化 HTTPS 模式启动日志 ([2d905e5](https://github.com/admilkjs/QQBotWs/commit/2d905e5cac0316533b6e9e000c75e1dd8009cffb))
+* **server:** 优化 HTTPS 模式的启动逻辑 ([bfc06c6](https://github.com/admilkjs/QQBotWs/commit/bfc06c605719f5083225c4bee4abf4279dc97f08))
+
 ## [0.4.1](https://github.com/admilkjs/QQBotWs/compare/v0.4.0...v0.4.1) (2025-05-16)
 
 
