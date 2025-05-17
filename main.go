@@ -244,6 +244,11 @@ func handleProxy(w http.ResponseWriter, r *http.Request) {
 	targetURL.RawQuery = q.Encode()
 
 	log.Infof("[HTTP] 开始代理请求 %s %s", r.Method, targetURL.String())
+	for k, v := range r.Header {
+		for _, vv := range v {
+			log.Debugf("[HTTP] Header: %s: %s", k, vv)
+		}
+	}
 
 	client := &http.Client{}
 	proxyReq, err := http.NewRequest(r.Method, targetURL.String(), r.Body)
